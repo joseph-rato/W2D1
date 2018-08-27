@@ -6,7 +6,7 @@ class Employee
     @name = name
     @title = title 
     @salary = salary  
-    @boss = boss
+    boss = boss
   end 
   
   def bonus(multiplier)
