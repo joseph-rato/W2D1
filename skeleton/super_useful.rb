@@ -24,14 +24,15 @@ def feed_me_a_fruit
 
     puts "Feed me a fruit! (Enter the name of a fruit:)"
     maybe_fruit = gets.chomp
+    if maybe_fruit == "coffee"
+      raise ArgumentError, "not a valid fruit"
+    end
     reaction(maybe_fruit) 
-    # if maybe_fruit == "coffee"
-      
-  rescue StandardError => e 
-    puts e.message
-    retry
-  # end 
-  
+    rescue ArgumentError => e 
+        puts e.message
+        retry
+    rescue StandardError => f
+        puts f.message
 end  
 
 # PHASE 4
@@ -40,7 +41,19 @@ class BestFriend
     @name = name
     @yrs_known = yrs_known
     @fav_pastime = fav_pastime
+    if @yrs_known < 5
+      raise ArgumentError, "not long enough"
+    end
+    parse(@name, @fav_pastime)
   end
+  
+  def parse(*args) 
+    args.each do |arg|
+      if arg.length == 0
+        raise "Input cannot be blank"
+      end 
+    end 
+  end 
 
   def talk_about_friendship
     puts "Wowza, we've been friends for #{@yrs_known}. Let's be friends for another #{1000 * @yrs_known}."
