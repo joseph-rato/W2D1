@@ -5,7 +5,7 @@ require_relative 'Slideable'
 class Piece 
   
   attr_accessor :color, :pos
-  attr_reader :visual
+  attr_reader :visual, :board
   
   def initialize(pos, board, color)
     @board = board
@@ -27,13 +27,22 @@ class Rook < Piece
     super
     @visual = "♜"
   end
-
+  
+  def moves
+    horizontal_dirs
+  end
 end 
 # 
 class Bishop < Piece 
+  include SlidingPiece
+  
   def initialize(pos, board, color)
     super
     @visual = "♝"
+  end
+  
+  def moves
+    diagonal_dirs
   end
 end 
 
@@ -51,10 +60,16 @@ class King < Piece
   end
 end
 
-class Queen < Piece 
+class Queen < Piece
+   include SlidingPiece
+   
   def initialize(pos, board, color)
     super
     @visual = "♛"
+  end
+  
+  def moves
+    diagonal_dirs + horizontal_dirs
   end
 end
 
