@@ -1,6 +1,7 @@
 require 'singleton'
 require 'byebug'
 require_relative 'Slideable'
+require_relative 'pawn'
 
 class Piece 
   
@@ -47,9 +48,24 @@ class Bishop < Piece
 end 
 
 class Knight < Piece 
+  include SteppingPiece
+  
   def initialize(pos, board, color)
     super
     @visual = "♞"
+  end
+  
+  def move_diffs
+    [
+      [2,1],
+      [1,2],
+      [-2,1],
+      [-1,2],
+      [-2,-1],
+      [-1,-2],
+      [1,-2],
+      [2,-1]
+    ]
   end
 end
 
@@ -57,6 +73,19 @@ class King < Piece
   def initialize(pos, board, color)
     super
     @visual = "♚"
+  end
+  
+  def move_diffs
+    [
+      [1,1],
+      [1,-1],
+      [-1,-1],
+      [-1,1],
+      [0,1],
+      [1,0],
+      [0,-1],
+      [-1,0]
+    ]
   end
 end
 
@@ -73,12 +102,6 @@ class Queen < Piece
   end
 end
 
-class Pawn < Piece 
-  def initialize(pos, board, color)
-    super
-    @visual = "♟"
-  end
-end 
 class NullPiece < Piece
   include Singleton
   def initialize
