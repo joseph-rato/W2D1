@@ -108,7 +108,7 @@ class Cursor
     if @board.valid_pos?(temp_pos)
       @cursor_pos = temp_pos
     else
-      raise OffBoardPosition
+      # raise OffBoardPosition
     end
   end
 end

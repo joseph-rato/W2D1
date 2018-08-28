@@ -2,22 +2,23 @@ require_relative 'pieces'
 
 class Board
   def self.make_grid
-    grid = Array.new(8) { Array.new(8) { @sentinel }}
+    grid = Array.new(8) { Array.new(8) { NullPiece.instance }}
+    
     grid.map!.with_index do |row, i|
       if i == 1 
-        row.map! do |cell|
-          cell = Pawn.new(:black)
+        row.map!.with_index do |cell, j|
+          cell = Pawn.new([i, j],:black)
         end
       elsif i == 6
-        row.map! do |cell|
-          cell = Pawn.new(:white)
+        row.map!.with_index do |cell, j|
+          cell = Pawn.new([i, j], :white)
         end
       elsif i == 0 
-        row = [Rook.new(:black), Knight.new(:black), Bishop.new(:black), Queen.new(:black), 
-          King.new(:black), Bishop.new(:black), Knight.new(:black), Rook.new(:black)]
+        row = [Rook.new([i, 0], :black), Knight.new([i, 1], :black), Bishop.new([i, 2], :black), Queen.new([i, 3], :black), 
+          King.new([i, 4], :black), Bishop.new([i, 5], :black), Knight.new([i, 6], :black), Rook.new([i, 7], :black)]
       elsif i == 7 
-        row = [Rook.new(:white), Knight.new(:white), Bishop.new(:white), King.new(:white),  
-           Queen.new(:white), Bishop.new(:white), Knight.new(:white), Rook.new(:white)]
+        row = [Rook.new([i, 0], :white), Knight.new([i, 1], :white), Bishop.new([i, 2], :white), King.new([i, 3], :white),  
+           Queen.new([i, 4], :white), Bishop.new([i, 5], :white), Knight.new([i, 6], :white), Rook.new([i,7], :white)]
       else
         row 
       end
@@ -27,7 +28,8 @@ class Board
   attr_reader :grid
   
   def initialize
-    @sentinel = NullPiece.instance
+    # @sentinel = NullPiece.instance
+    # why does using @sentinel cause our board to be nil instead of what it should be change like 5 to @sentinel to show
     @grid = Board.make_grid
   end
   
@@ -42,10 +44,9 @@ class Board
     
     if self[start_pos].valid_move?(start_pos, end_pos)
       self[end_pos] = self[start_pos]
-      self[start_pos] = @sentinel 
+      self[start_pos] = NullPiece.instance #@sentinel 
     end 
-    # might need reccue for error still in different method
-    # we need valid move to work
+  
   end
   
   def [](pos)
