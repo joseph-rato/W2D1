@@ -76,8 +76,45 @@ class Cursor
   end
 
   def handle_key(key)
+    case key 
+    when :return
+      @cursor_pos 
+    when :space 
+      @cursor_pos
+    when :left 
+      update_pos(MOVES[:left])
+      return nil 
+    when :right 
+      update_pos(MOVES[:right])
+      return nil  
+    when :down 
+      update_pos(MOVES[:down])
+      return nil 
+    when :up 
+      update_pos(MOVES[:up])
+      return nil 
+    when :ctrl_c 
+      Process.exit(0)
+    end
   end
 
   def update_pos(diff)
+    row, col = diff 
+    temp_pos = @cursor_pos.dup
+    
+    temp_pos[0] += row 
+    temp_pos[1] += col 
+    
+    if @board.valid_pos?(temp_pos)
+      @cursor_pos = temp_pos
+    else
+      raise OffBoardPosition
+    end
+  end
+end
+
+class OffBoardPosition < StandardError
+  def message
+    "position is not on board"
   end
 end

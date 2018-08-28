@@ -57,5 +57,12 @@ class Board
     row, col = pos
     @grid[row][col] = val
   end
+  
+  def valid_pos?(pos)
+    row, col = pos 
+    return false if row > 7 || row < 0
+    return false if col > 7 || col < 0  
+    true
+  end 
 end
 
