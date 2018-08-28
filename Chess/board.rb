@@ -2,7 +2,7 @@ require_relative 'pieces'
 
 class Board
   def self.make_grid
-    grid = Array.new(8) { Array.new(8) { NullPiece.new }}
+    grid = Array.new(8) { Array.new(8) { @sentinel }}
     grid.map!.with_index do |row, i|
       if i == 1 
         row.map! do |cell|
@@ -27,6 +27,7 @@ class Board
   attr_reader :grid
   
   def initialize
+    @sentinel = NullPiece.instance
     @grid = Board.make_grid
   end
   
@@ -41,7 +42,7 @@ class Board
     
     if self[start_pos].valid_move?(start_pos, end_pos)
       self[end_pos] = self[start_pos]
-      self[start_pos] = NullPiece.new 
+      self[start_pos] = @sentinel 
     end 
     # might need reccue for error still in different method
     # we need valid move to work
