@@ -1,3 +1,6 @@
+require_relative 'Pieces' 
+require 'byebug'
+
 class Pawn < Piece 
   def initialize(pos, board, color)
     super
@@ -11,20 +14,30 @@ class Pawn < Piece
   end
   
   def forward_dir
-    return -1 if self.color == :black
-    return 1 if self.color == :white
+    return 1 if self.color == :black
+    return -1 if self.color == :white
   end
   
   def forward_steps
-    x,y = self.pos
+    debugger
     results = []
     
     if at_start_row?
+      x,y = self.pos
       y += 2 * forward_dir
-      results << [x, y] if self.board[[x, y]] == NullPiece
+      if self.board[[x, y]].class == NullPiece
+        results << [x, y] 
+      end
     end
     
-    results << [x, y+1] if self.board[[x, y]] == NullPiece
+    x,y = self.pos
+    y += (forward_dir * 1)
+    
+    if self.board[[x, y]].class == NullPiece
+       results << [x, y]
+    end
+    
+    results
   end
   
   def side_attacks

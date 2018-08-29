@@ -1,4 +1,5 @@
 require_relative 'pieces'
+require_relative 'pawn'
 
 class Board
   def self.make_grid(board)

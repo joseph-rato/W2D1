@@ -2,6 +2,7 @@ require 'singleton'
 require 'byebug'
 require_relative 'Slideable'
 require_relative 'pawn'
+require_relative 'steppingpiece'
 
 class Piece 
   
